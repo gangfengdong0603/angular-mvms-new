@@ -4,8 +4,7 @@
  */
 
 var express = require('express')
-  , routes = require('./routes')
-  , user = require('./routes/user') , http = require('http')
+  , http = require('http')
   , path = require('path')
   , fs = require('fs')
   , jade = require('jade');
@@ -13,7 +12,7 @@ var express = require('express')
 var app = express();
 
 // all environments
-app.set('port', process.env.PORT || 4000);
+app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 app.use(express.favicon());
@@ -44,12 +43,12 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-app.get('/', routes.index);
-app.get('/channelManage', routes.index);
-app.get('/columnManage/:cateCode', routes.index);
-app.get('/content/:id', routes.index);
-app.get('/others/:other', routes.index);
-app.get('/appManage/:am', routes.index);
+app.get('/', index);
+app.get('/channelManage', index);
+app.get('/columnManage/:cateCode', index);
+app.get('/content/:id', index);
+app.get('/others/:other', index);
+app.get('/appManage/:am', index);
 
 app.post('/cms/upload.do', function(req, res) {
   res.json(['http://img2.bdstatic.com/img/image/60358ee3d6d55fbb2fbc874c7de4e4a20a44723dc9b.jpg']);
@@ -58,3 +57,7 @@ app.post('/cms/upload.do', function(req, res) {
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
+
+function index(req, res) {
+  res.render('index', {title: 'mvms'});
+}
