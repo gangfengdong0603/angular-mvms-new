@@ -1,0 +1,223 @@
+header(ng-class="{top: scroll > 82}", plat-width)
+  section.stats.ver(ng-show="plats && plats.length")
+    .label-input.ver.swapList
+      label 模式:
+      span
+        a(href="#", ng-class="{active: listShow}", ng-click="listShow = true") 列表
+        a(href="#", ng-class="{active: !listShow}" ,ng-click="listShow = false") 编辑
+    .label-input.ver.swapState
+      label 状态:
+      span
+        a(href="#", ng-class="{active: stats == 1}", ng-click="stats = 1") 有效
+        a(href="#", ng-class="{active: stats == 0}", ng-click="stats = 0") 无效
+  section.plat(ng-include="'/partials/plat.html'")
+div(ng-if="listShow", style="position: relative;")
+  .table_header.video(ng-show="plats && plats.length")
+    span(style="width: 30%")
+      span 通用名称
+    span(style="width: 30%")
+      span 平台名称
+    span(style="width: 10%")
+      span 视频ID
+    span(style="width: 10%")
+      span 专辑ID
+    span(style="text-align: right;")
+      span(style="margin-right: 20px;") #
+  section.list.channel.showList(ng-class="{active: list && list.plat_column_content_list && list.plat_column_content_list.length}")
+    .item(ng-repeat="item in list.plat_column_content_list | filter: search", sortable, h-light)
+      label(style="width: 30%;")
+        span 
+          a(target="_blank", href="{{ item.video_url }}") {{ (item.type == 0 || item.type == 2) && item.content.video_name || item.content.album_name || '&nbsp;' }}
+      label(style="width: 30%;")
+        span {{ (item.type == 0 || item.type == 2) && item.video_name || item.album_name || '&nbsp;' }}
+      label(style="width: 10%;")
+        span {{ item.vid }}
+      label(style="width: 10%;")
+        span {{ item.aid }}
+      label(style="width: 20%; text-align: center;")
+        span(style="color:#FF3A2D") {{ item.type == 2 && '(活动)' || '&nbsp;' }}
+  .index-box.flist
+    i.index(ng-repeat="item in list.plat_column_content_list", ng-bind="$index+1")
+section.list.video(ng-class="{active: list && list.plat_column_content_list && list.plat_column_content_list.length}", ng-if="!listShow")
+  .item(ng-repeat="item in list.plat_column_content_list | filter: search", h-light)
+    .ndex(ng-bind="$index+1")
+    .item1
+      div(ng-if="item.type != 2")
+        .label-input.horizon
+          label 
+            a(target="_blank", href="{{ item.video_url }}") 视频ID:
+          span {{item.vid}}
+        .label-input.horizon
+          label 专辑ID:
+          span {{item.aid}}
+        .label-input.horizon
+          label 频道ID:
+          span {{item.cate_code}}
+        .edit
+          .label-input.horizon
+            label 老视频ID:
+            span {{item.old_vid}}
+          .label-input.horizon
+            label 老专辑ID:
+            span {{item.sid}}
+          .label-input.horizon
+            label 节目ID:
+            span {{item.program_id}}
+        .label-input.label-text(ng-if="config.vs_tv_name.active")
+          label {{item.type == 0 && '视频' || '专辑'}}名称:
+          input(type="text",ng-if="item.type == 0", ng-model="item.content.video_name", placeholder="{{config.vs_tv_name.value}}", check="vs_tv_name")
+          input(type="text",ng-if="item.type == 1", ng-model="item.content.album_name", placeholder="{{config.vs_tv_name.value}}", check="vs_tv_name")
+          input(type="text",ng-if="item.type == 0", ng-model="item.video_name", placeholder="{{config.vs_tv_name.value}}", check="vs_tv_name")
+          input(type="text",ng-if="item.type == 1", ng-model="item.album_name", placeholder="{{config.vs_tv_name.value}}", check="vs_tv_name")
+        .label-input.label-text(ng-if="config.vs_sub_title.active")
+          label 副标题:
+          input(type="text", ng-if="item.type == 0", ng-model="item.content.video_sub_name", placeholder="{{config.vs_sub_title.value}}", check="vs_sub_title")
+          input(type="text", ng-if="item.type == 1", ng-model="item.content.album_sub_name", placeholder="{{config.vs_sub_title.value}}", check="vs_sub_title")
+          input(type="text",ng-if="item.type == 0", ng-model="item.video_sub_name", placeholder="{{config.vs_sub_title.value}}", check="vs_sub_title")
+          input(type="text",ng-if="item.type == 1", ng-model="item.album_sub_name", placeholder="{{config.vs_sub_title.value}}", check="vs_sub_title")
+        .label-input.label-text(ng-if="config.vs_tip.active")
+          label 图片提示:
+          input(type="text", ng-model="item.content.tip", placeholder="{{config.vs_tip.value}}", check="vs_tip")
+          input(type="text", ng-model="item.tip", placeholder="{{config.vs_tip.value}}", check="vs_tip")
+        .label-input.label-text(ng-if="config.vs_now.active")
+          label 更新集数:
+          input(type="text", ng-model="item.content.latest_video_count", placeholder="{{config.vs_now.value}}")
+        .label-input.label-text(ng-if="config.vs_total.active")
+          label 总集数:
+          input(type="text", ng-model="item.content.total_video_count", placeholder="{{config.vs_total.value}}")
+        .label-input.label-text(ng-if="config.vs_preview.active")
+          label 预览播放页:
+          input(type="text", ng-model="item.tv_url", placeholder="{{config.vs_preview.value}}")
+        .label-input.label-text(ng-if="config.vs_intro.active")
+          label 简介:
+          textarea(ng-model="item.content.tv_desc", placeholder="{{config.vs_intro.value}}", check="vs_intro")
+          textarea(ng-model="item.tv_desc", placeholder="{{config.vs_intro.value}}", check="vs_intro")
+        .label-input.label-text(ng-if="config.vs_cm.active")
+          label 角标:
+          input(type="text", ng-model="item.content.label", placeholder="{{config.vs_cm.value}}", check="vs_cm")
+          input(type="text", ng-model="item.label", placeholder="{{config.vs_cm.value}}", check="vs_cm")
+        .label-input.label-text(ng-if="config.vs_recommend_reason.active")
+          label 推荐理由:
+          input(type="text", ng-model="item.content.recommend_reason", placeholder="{{config.vs_recommend_reason.value}}", check="vs_recommend_reason")
+          input(type="text", ng-model="item.recommend_reason", placeholder="{{config.vs_recommend_reason.value}}", check="vs_recommend_reason")
+      div(ng-if="item.type == 2")
+        .label-input
+          label(ng-class="{error: item.content.action_type == 'ERROR' || !item.content.action_type || item.content.action_type == 'null'}") 活动类型 
+            i(ng-show="item.content.action_type == 'ERROR' || !item.content.action_type || item.content.action_type == 'null'") (必填)
+            |:
+          .label-radio.horizon
+            input(type="radio", value="2", ng-model="item.content.action_type")
+            内置浏览器
+          .label-radio.horizon
+            input(type="radio", value="3", ng-model="item.content.action_type")
+            外置浏览器
+          .label-radio.horizon
+            input(type="radio", value="8", ng-model="item.content.action_type")
+            直播中间页
+          .label-radio.horizon
+            input(type="radio", value="9", ng-model="item.content.action_type")
+            直播播放器
+          .label-radio.horizon
+            input(type="radio", value="10", ng-model="item.content.action_type")
+            专题
+        .label-input.label-text(ng-if="config.sa_title.active")
+          label 活动名称:
+          input(type="text", ng-model="item.content.video_name", placeholder="{{config.sa_title.value}}")
+          input(type="text", ng-model="item.video_name", placeholder="{{config.sa_title.value}}")
+        .label-input.label-text(ng-if="config.sa_sub_title.active")
+          label 副标题:
+          input(type="text", ng-model="item.content.video_sub_name", placeholder="{{config.sa_sub_title.value}}")
+          input(type="text", ng-model="item.video_sub_name", placeholder="{{config.vs_sub_title.value}}")
+        .label-input.label-text(ng-if="config.sa_url.active")
+          label 专题URL:
+          input(type="text",ng-model="item.content.action_url", placeholder="{{config.sa_url.value}}", check="sa_url")
+          input(type="text",ng-model="item.action_url", placeholder="{{config.sa_url.value}}", check="sa_url")
+        .label-input.label-text(ng-if="config.sa_cm.active")
+          label 角标:
+          input(type="text", ng-model="item.content.label", placeholder="{{config.sa_cm.value}}")
+          input(type="text", ng-model="item.label", placeholder="{{config.sa_cm.value}}")
+        .label-input.label-text(ng-if="config.sa_live_id.active")
+          label 直播ID:
+          input(type="text", ng-model="item.content.live_id", placeholder="{{config.sa_live_id.value}}")
+          input(type="text", ng-model="item.live_id", placeholder="{{config.sa_live_id.value}}")
+        .label-input.label-text(ng-if="config.sa_pic_tip.active")
+          label 图片提示:
+          input(type="text", ng-model="item.content.tip", placeholder="{{config.sa_pic_tip.value}}")
+          input(type="text", ng-model="item.tip", placeholder="{{config.sa_pic_tip.value}}")
+        .label-input.label-text(ng-if="config.sa_intro.active")
+          label 简介:
+          textarea(ng-model="item.content.tv_desc", placeholder="{{config.sa_intro.value}}", check="sa_intro")
+          textarea(ng-model="item.tv_desc", placeholder="{{config.sa_intro.value}}", check="sa_intro")
+    .item2
+      div(ng-if="item.column_id != 1")
+       .label-input.horizon
+         label(style="text-align: center;") 横图
+           img.vertical(width="80", ng-src="{{item.hor_big_pic}}", ng-click="view($event)")
+       .label-input.horizon
+         label(style="text-align: center;") 竖图
+           img.vertical(width="80", ng-src="{{ item.ver_big_pic }}", ng-click="view($event)")
+      div(ng-if="item.column_id == 1")
+       .label-input.horizon
+         label(style="text-align: center;") 焦点图
+           img.vertical(width="80", ng-src="{{ item.video_big_pic }}", ng-click="view($event)")
+      //span(ng-if="(item.type == 2 && config.sa_pic.active) || config.vs_pic.active") ({{item.type == 2 && config.sa_pic.width || config.vs_pic.width}}x{{item.type == 2 && config.sa_pic.height || config.vs_pic.height}})
+      //img.vertical(width="80", ng-src="{{ list.plat_channel_column.column_type && (list.plat_channel_column.column_type != 1 && (list.plat_channel_column.layout_type == 102 && item.ver_high_pic || item.hor_high_pic) || item.video_big_pic) || (list.plat_channel_column.layout == 3 && item.hor_high_pic || item.ver_high_pic) }}", ng-click="view($event)")
+      button.vertical.btn(ng-click="upload(this)") 上传图片
+    .item3
+      p 
+        a(href="#", ng-click="moveTop(this)") 置顶
+        a(href="#", ng-click="moveBottom(this)") 置底
+      p 
+        a(href="#", ng-click="moveUp(this)") 上移
+        a(href="#", ng-click="moveDown(this)") 下移
+      p
+        a(href="#", ng-click="changeStatus(item, $event)", ng-class="{on: item.status == 1}").iosBtn
+      p
+        a(href="#", ng-click="applyOthers(this)") 其他平台
+      p
+        a(href="#", ng-click="logs(this)") 操作记录
+a.loadmore(ng-if="plats && plats.length", ng-click="listProvider.loadMore()", href="#", ng-bind="listProvider.loading && '加载中..' || (listProvider.more && '加载更多' || (listProvider.more == false && '没有更多啦' || ''))") 
+button.save.btn(ng-class="{show: list.plat_column_content_list && list.plat_column_content_list.length}", ng-click="listProvider.save()") 保存
+script(type="text/ng-template", id="mutlUpload.html")
+  .modal-header
+    h3 上传图片
+  .modal-body
+    .label-input.label-text
+      a(ng-href="{{item.content.default_pic}}", target="_blank")
+        img(width="60", ng-src="{{item.content.default_pic}}", style="display: inline-block;vertical-align: middle;margin-right: 20px;")
+      label 通用:
+      input.xxlarge(type="text", ng-model="item.content.default_pic")
+      input(type="file", upload="item.content.default_pic")
+    .label-input.label-text
+      a(ng-href="{{item.hor_high_pic}}", target="_blank")
+        img(width="60", ng-src="{{item.hor_high_pic}}", style="display: inline-block;vertical-align: middle;margin-right: 20px;")
+      label 横图:
+      input.xxlarge(type="text", ng-model="item.hor_high_pic")
+      input(type="file", upload="item.hor_high_pic")
+    .label-input.label-text
+      a(ng-href="{{item.hor_high_16x9_pic}}", target="_blank")
+        img(width="60", ng-src="{{item.hor_high_16x9_pic}}", style="display: inline-block;vertical-align: middle;margin-right: 20px;")
+      label 16x9横图:
+      input.xxlarge(type="text", ng-model="item.hor_high_16x9_pic")
+      input(type="file", upload="item.hor_high_16x9_pic")
+    .label-input.label-text
+      a(ng-href="{{item.ver_high_pic}}", target="_blank")
+        img(width="60", ng-src="{{item.ver_high_pic}}", style="display: inline-block;vertical-align: middle;margin-right: 20px;")
+      label 竖图:
+      input.xxlarge(type="text", ng-model="item.ver_high_pic")
+      input(type="file", upload="item.ver_high_pic")
+    .label-input.label-text
+      a(ng-href="{{item.video_big_pic}}", target="_blank")
+        img(width="60", ng-src="{{item.video_big_pic}}", style="display: inline-block;vertical-align: middle;margin-right: 20px;")
+      label 焦点图:
+      input.xxlarge(type="text", ng-model="item.video_big_pic")
+      input(type="file", upload="item.video_big_pic")
+    .label-input.label-text
+      a(ng-href="{{item.tv_recommend_pic}}", target="_blank")
+        img(width="60", ng-src="{{item.tv_recommend_pic}}", style="display: inline-block;vertical-align: middle;margin-right: 20px;")
+      label 频道推荐:
+      input.xxlarge(type="text", ng-model="item.tv_recommend_pic")
+      input(type="file", upload="item.tv_recommend_pic")
+  .modal-footer
+    button.btn.yellow(ng-click="cancel()") 取消
+    button.btn.blue(ng-click="ok()") 确定

@@ -1,0 +1,108 @@
+header(ng-class="{top: scroll > 82}", plat-width)
+  section.stats
+    .label-input.ver.swapList
+      label 模式:
+      span
+        a(href="#", ng-class="{active: listShow}", ng-click="listShow = true") 列表
+        a(href="#", ng-class="{active: !listShow}" ,ng-click="listShow = false") 编辑
+    .label-input.ver.swapState
+      label 状态:
+      span
+        a(href="#", ng-class="{active: stats == 1}", ng-click="stats = 1") 有效
+        a(href="#", ng-class="{active: stats == 0}", ng-click="stats = 0") 无效
+  section.plat(ng-include="'/partials/plat.html'")
+div(ng-if="listShow", style="position: relative;")
+  .table_header.video
+    span(style="width: 40%")
+      span 标题
+    span(style="width: 40%")
+      span ID
+    span(style="text-align: right;width: 20%;")
+      span(style="margin-right: 20px;") #
+  section.list.channel.showList(ng-class="{active: list && list.length}")
+    .item(ng-repeat="item in list | filter: search", sortable)
+      label(style="width: 40%;")
+        span {{ item.name }}
+      label(style="width: 40%;")
+        span {{ item.id }}
+  .index-box.flist
+    i.index(ng-repeat="item in list", ng-bind="$index+1")
+section.list.video(ng-class="{active: list && list.length}", ng-if="!listShow")
+  .item(ng-repeat="item in list | filter: search", h-light)
+    .ndex(ng-bind="$index+1")
+    .item1
+      .label-input.horizon
+        label ID:
+        span {{item.id}}
+      .label-input
+        label(ng-class="{error: item.action_type == 'ERROR' || !item.action_type || item.action_type == 'null'}") 活动类型 
+          i(ng-show="item.action_type == 'ERROR' || !item.action_type || item.action_type == 'null'") (必填)
+          |:
+        .label-radio.horizon
+          input(type="radio", value="2", ng-model="item.action_type")
+          内置浏览器
+        .label-radio.horizon
+          input(type="radio", value="3", ng-model="item.action_type")
+          外置浏览器
+        .label-radio.horizon
+          input(type="radio", value="8", ng-model="item.action_type")
+          直播中间页
+        .label-radio.horizon
+          input(type="radio", value="9", ng-model="item.action_type")
+          直播播放器
+        .label-radio.horizon
+          input(type="radio", value="10", ng-model="item.action_type")
+          专题
+      .label-input.label-text
+        label 标题:
+        input(type="text", ng-model="item.name")
+      .label-input.label-text
+        label 副标题:
+        input(type="text", ng-model="item.sub_name")
+      .label-input.label-text
+        label action_url:
+        input(type="text", ng-model="item.action_url")
+      .label-input.label-text
+        label 限制的渠道:
+        input(type="text", ng-model="item.limit_partner")
+        small.tip *提示
+          .detail
+            label －1 全部允许; 指定限制的渠道,
+              |渠道号按逗号分割,例如: '1,2,3'
+    .item2
+      .horizon
+        img(height="60", ng-src="{{item.icon}}", ng-click="view($event)")
+      .horizon
+        img(height="60", ng-src="{{item.thumb_pic}}", ng-click="view($event)")
+      button.vertical.btn(ng-click="upload(this)") 上传图片
+    .item3
+      p 
+        a(href="#", ng-click="moveTop(this)") 置顶
+        a(href="#", ng-click="moveBottom(this)") 置底
+      p 
+        a(href="#", ng-click="moveUp(this)") 上移
+        a(href="#", ng-click="moveDown(this)") 下移
+      p 
+        a(href="#", ng-click="changeStatus(item, $event)", ng-class="{on: item.status == 1}").iosBtn
+      p
+        a(href="#", ng-click="applyOthers(this)") 其他平台
+button.save.btn(ng-class="{show: list && list.length}", ng-click="listProvider.save()") 保存
+script(type="text/ng-template", id="mutlUpload.html")
+  .modal-header
+    h3 上传图片
+  .modal-body
+    .label-input.label-text
+      a(ng-href="{{item.icon}}", target="_blank")
+        img(width="60", ng-src="{{item.icon}}", style="display: inline-block;vertical-align: middle;margin-right: 20px;")
+      label 图标:
+      input.xxlarge(type="text", ng-model="item.icon")
+      input(type="file", upload="item.icon")
+    .label-input.label-text
+      a(ng-href="{{item.icon_v4}}", target="_blank")
+        img(width="60", ng-src="{{item.thumb_pic}}", style="display: inline-block;vertical-align: middle;margin-right: 20px;")
+      label 缩略图:
+      input.xxlarge(type="text", ng-model="item.thumb_pic")
+      input(type="file", upload="item.thumb_pic")
+  .modal-footer
+    button.btn.yellow(ng-click="cancel()") 取消
+    button.btn.blue(ng-click="ok()") 确定

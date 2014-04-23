@@ -1,0 +1,130 @@
+[
+{
+"id": 1,
+"name": "iPad",
+"plat": 1,
+"status": 1,
+"update_user": "ydw",
+"update_time": 1341485301000
+},
+{
+"id": 2,
+"name": "iPhone",
+"plat": 3,
+"status": 1,
+"update_user": "ydw",
+"update_time": 1341485336000
+},
+{
+"id": 3,
+"name": "Android Phone",
+"plat": 6,
+"status": 1,
+"update_user": "ydw",
+"update_time": 1341485383000
+},
+{
+"id": 4,
+"name": "Android Pad",
+"plat": 0,
+"status": 1,
+"update_user": "ydw",
+"update_time": 1341485424000
+},
+{
+"id": 5,
+"name": "Windows Phone",
+"plat": 11,
+"status": 1,
+"update_user": "ydw",
+"update_time": 1341485461000
+},
+{
+"id": 6,
+"name": "搜狐影音",
+"plat": 30,
+"status": 1,
+"update_user": "ydw",
+"update_time": 1344326933000
+},
+{
+"id": 7,
+"name": "Android TV",
+"plat": 10,
+"status": 1,
+"update_user": "ydw",
+"update_time": 1344562519000
+},
+{
+"id": 8,
+"name": "Windows 8",
+"plat": 12,
+"status": 1,
+"update_user": "ydw",
+"update_time": 1345085335000
+},
+{
+"id": 9,
+"name": "W8Sony专区",
+"plat": 1000,
+"status": 1,
+"update_user": "ydw",
+"update_time": 1348732304000
+},
+{
+"id": 10,
+"name": "互联网电视盒",
+"plat": 15,
+"status": 1,
+"update_user": "jia",
+"update_time": 1351673825000
+},
+{
+"id": 11,
+"name": "Android Phone Sony专区",
+"plat": 1001,
+"status": 1,
+"update_user": "ydw",
+"update_time": 1352108148000
+},
+{
+"id": 12,
+"name": "Android Pad Sony专区",
+"plat": 1002,
+"status": 1,
+"update_user": "ydw",
+"update_time": 1352174279000
+},
+{
+"id": 13,
+"name": "Android NewPad",
+"plat": 16,
+"status": 1,
+"update_user": "ydw",
+"update_time": 1352275926000
+},
+{
+"id": 14,
+"name": "Android Phone 三星影视圈",
+"plat": 1003,
+"status": 1,
+"update_user": "ydw",
+"update_time": 1354089540000
+},
+{
+"id": 15,
+"name": "搜狐网新闻底级页",
+"plat": 31,
+"status": 1,
+"update_user": "ydw",
+"update_time": 1366779970000
+},
+{
+"id": 16,
+"name": "Android Phone 三星影视圈二期",
+"plat": 1004,
+"status": 1,
+"update_user": "ydw",
+"update_time": 1378354424000
+}
+]

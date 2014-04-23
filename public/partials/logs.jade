@@ -1,0 +1,22 @@
+.modal-header
+  h3 操作记录
+.modal-body
+  table
+    thead
+      tr(style="font-weight: bold;")
+        th content_id
+        th 修改时间
+        th 修改人
+        th 创建时间
+        th 创建人
+        th id
+    tbody
+      tr
+        td(ng-bind="item.content_id")
+        td(ng-bind="item.update_time")
+        td(ng-bind="item.update_user")
+        td(ng-bind="item.create_time")
+        td(ng-bind="item.create_user")
+        td 
+          a(target="_blank" ng-href="/log/query.do?id={{ item.id }}") {{ item.id }} 
+.modal-footer

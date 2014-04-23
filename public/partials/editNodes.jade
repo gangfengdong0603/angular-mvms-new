@@ -1,0 +1,10 @@
+.modal-header
+  h3 调整
+    span(style="color: deeppink;") &nbsp;{{ node.name }}&nbsp;
+    |下节点位置
+.modal-body
+  ol
+    li(ng-repeat="node in node.nodes", sortable) {{ node.name }}
+.modal-footer
+  button.blue.btn(ng-click="cancel()") 取消
+  button.yellow.btn(ng-click="ok()") 保存

@@ -1,0 +1,378 @@
+header(ng-class="{top: scroll > 82}", plat-width)
+  section.stats(ng-show="plats && plats.length")
+    .label-input.ver
+      label 模式:
+      span
+        a(href="#", ng-class="{active: listShow}", ng-click="listShow = true") 列表
+        a(href="#", ng-class="{active: !listShow}" ,ng-click="listShow = false") 编辑
+    .label-input.ver
+      label 状态:
+      span
+        a(href="#", ng-class="{active: stats == 1}", ng-click="stats = 1") 有效
+        a(href="#", ng-class="{active: stats == 0}", ng-click="stats = 0") 无效
+  section.plat(ng-include="'/partials/plat.html'")
+div(ng-if="listShow", style="position: relative;")
+  .table_header(ng-show="plats && plats.length")
+    span 
+      span 通用名称
+    span 
+      span 平台名称
+    span(style="text-align: right;")
+      span(style="margin-right: 20px;") #
+  section.list.column.showList(ng-class="{active: list && list.length}")
+    .item(ng-repeat="item in list | filter: search", sortable, h-light)
+      label(style="width: 33.3%;")
+        span(ng-bind="item.videoColumn.name")
+      label(style="width: 33.3%;")
+        span(ng-bind="item.name")
+  .index-box.flist
+    i.index(ng-repeat="item in list", ng-bind="$index+1")
+section.list.column(ng-class="{active: list && list.length}", ng-if="!listShow")
+  .item(ng-repeat="item in list | filter: search", h-light)
+    .ndex(ng-bind="$index+1")
+    .item1
+      .label-input.label-text.horizon
+        label 栏目名称:
+        input(type="text", ng-model="item.videoColumn.name")
+        input(type="text", ng-model="item.name", placeholder="平台显示名称")
+        label 栏目ID: {{item.column_id}}
+      .label-input
+        label(ng-class="{error: item.column_type == 'ERROR' || !item.column_type || item.column_type == 'null'}") 栏目显示类型
+          //i(ng-show="item.column_type == 'ERROR' || !item.column_type || item.column_type == 'null'") (必填)
+          |:
+        .label-radio.horizon
+          input(ng-model="item.column_type", type="radio", value="1")
+          焦点图
+        .label-radio.horizon
+          input(ng-model="item.column_type", type="radio", value="3")
+          活动列表
+        .label-radio.horizon
+          input(ng-model="item.column_type", type="radio", value="4")
+          精选栏目
+        .label-radio.horizon
+          input(ng-model="item.column_type", type="radio", value="5")
+          频道入口
+        .label-radio.horizon
+          input(ng-model="item.column_type", type="radio", value="6")
+          节目
+        .label-radio.horizon
+          input(ng-model="item.column_type", type="radio", value="7")
+          观看记录
+      .label-input
+        label 模板选择:
+        .label-radio.horizon
+          input(ng-model="item.layout", type="radio", value="3")
+          横图
+        .label-radio.horizon
+          input(ng-model="item.layout", type="radio", value="4")
+          竖图
+      .label-input
+        label 状态:
+        .label-radio.horizon
+          input(ng-model="item.status", type="radio", value="1")
+          有效
+        .label-radio.horizon
+          input(ng-model="item.status", type="radio", value="0")
+          无效
+      .label-input.label-text
+        label 是否有人工运营位:
+        input(type="checkbox", ng-model="item.is_manual_video", ng-true-value="1", ng-false-value="0")
+      .label-input.label-text
+        label 内容条数:
+        input(type="text", ng-model="item.content_size")
+      .label-input.label-text
+        label 分组:
+        input(type="text", ng-model="item.plat_group")
+      .label-input
+        label(ng-class="{error: item.layout_type == 'ERROR' || !item.layout_type || item.layout_type == 'null'}") 人工运营位样式
+          //i(ng-show="item.layout_type == 'ERROR' || !item.layout_type || item.layout_type == 'null'") (必选)
+          |:
+        select(ng-model="item.layout_type")
+          option(value="ERROR") 无
+          option(value="101") 101 横图无压标
+          option(value="102") 102 竖图首张放大
+          option(value="103") 103 横图单行主标题
+          option(value="104") 104 横图两行主标题
+          option(value="105") 105 横图首张放大
+          option(value="106") 106 横图一行三列
+          option(value="107") 107 横图无副标题
+          option(value="201") 201 横图1大N小
+          option(value="202") 202 竖图幻灯
+          option(value="203") 203 横图幻灯
+          option(value="204") 204 横图幻灯+2小
+          option(value="205") 205 竖图双拼 压标+副标题
+          option(value="206") 206 竖图双拼 副标题
+          option(value="208") 208 竖图1+5 压标2行
+      //.label-input
+        label(ng-class="{error: item.layout_type == 'ERROR' || !item.layout_type || item.layout_type == 'null'}") 人工运营位样式
+          i(ng-show="item.layout_type == 'ERROR' || !item.layout_type || item.layout_type == 'null'") (必填)
+          |:
+        .label-radio.horizon
+          input(ng-model="item.layout_type", type="radio", value="101")
+          img(src="http://i2.itc.cn/20131030/3169_e29459b7_bc63_3924_70bc_4b65f692a340_1.jpg", height=60, ng-click="view($event)")
+        .label-radio.horizon
+          input(ng-model="item.layout_type", type="radio", value="102")
+          img(src="http://i2.itc.cn/20131030/3169_570a3902_03be_b798_ccf1_2e8dab4d16c1_1.jpg", height=60, ng-click="view($event)")
+        .label-radio.horizon
+          input(ng-model="item.layout_type", type="radio", value="103")
+          img(src="http://i2.itc.cn/20131030/3169_29950675_6035_a178_4063_d74161f4d07b_1.jpg", height=60, ng-click="view($event)")
+        .label-radio.horizon
+          input(ng-model="item.layout_type", type="radio", value="104")
+          img(src="http://i0.itc.cn/20131030/3169_6a4f33d3_8906_8b38_b662_e0505ece6f05_1.jpg", height=60, ng-click="view($event)")
+        .label-radio.horizon
+          input(ng-model="item.layout_type", type="radio", value="201")
+          img(src="http://i2.itc.cn/20131030/3169_e0759a81_553a_f8d2_ad53_3ca1b530b5ee_1.jpg", height=60, ng-click="view($event)")
+        .label-radio.horizon
+          input(ng-model="item.layout_type", type="radio", value="202")
+          img(src="http://img.itc.cn/mtv/138390082079970187.jpg", height=60, ng-click="view($event)")
+      .label-input.label-text
+        label 自动列表:
+        input.double(type="text", ng-model="item.more_list")
+      .label-input
+        label(ng-class="{error: item.more_list_layout_type == 'ERROR' || !item.more_list_layout_type || item.more_list_layout_type == 'null'}") 自动列表样式
+          //i(ng-show="item.more_list_layout_type == 'ERROR' || !item.more_list_layout_type || item.more_list_layout_type == 'null'") (必选)
+          |:
+        select(ng-model="item.more_list_layout_type")
+          option(value="ERROR") 无
+          option(value="1") 1 横图有压标
+          option(value="2") 2 横图无压标
+          option(value="3") 3 竖图有压标
+          option(value="4") 4 竖图无压标
+          option(value="5") 5 竖图有压标副标题显示播放数
+          option(value="6") 6 横图压标取一句话推荐 
+          option(value="7") 7 竖图压标取一句话推荐
+          option(value="8") 8 横图压标取最新一期副标题 
+          option(value="9") 9 竖图压标取最新一期副标题
+          option(value="10") 10 竖图无副标题两行主标题
+          option(value="11") 11 横图两行标题压标取专辑名称
+          option(value="12") 12 美剧-专题
+          option(value="13") 13 美剧-最近更新
+          option(value="14") 14 美剧-我的追剧
+          option(value="15") 15 美剧-专题详情
+          option(value="16") 16 竖图3拼 压标2行
+          option(value="17") 17 小图长条
+          option(value="18") 18 横图双拼 压标+副标题播放数
+      //.label-input
+        label(ng-class="{error: item.more_list_layout_type == 'ERROR' || !item.more_list_layout_type || item.more_list_layout_type == 'null'}") 自动列表样式
+          i(ng-show="item.more_list_layout_type == 'ERROR' || !item.more_list_layout_type || item.more_list_layout_type == 'null'") (必填)
+          |:
+        .label-radio.horizon
+          input(ng-model="item.more_list_layout_type", type="radio", value="1")
+          横图有压标
+        .label-radio.horizon
+          input(ng-model="item.more_list_layout_type", type="radio", value="2")
+          横图无压标
+        .label-radio.horizon
+          input(ng-model="item.more_list_layout_type", type="radio", value="3")
+          竖图有压标
+        .label-radio.horizon
+          input(ng-model="item.more_list_layout_type", type="radio", value="4")
+          竖图无压标
+        .label-radio.horizon
+          input(ng-model="item.more_list_layout_type", type="radio", value="5")
+          竖图有压标副标题显示播放数
+      .label-input
+        label 更多跳转:
+        select(ng-model="item.jump_cate_code", ng-options="i.cate_code as i.name for i in jumps")
+      .label-input.label-text
+        label actionUrl:
+        input.double(type="text", ng-model="item.action_url")
+      .label-input.label-text
+        label 版本限制:
+        input(type="text", ng-model="item.sver_limit")
+        small.tip *提示
+          .detail
+            label -1 全部版本; 指定的版本,版本号按逗号分割,例如: ',4.0,4.0.1,4.0.2,'
+      .label-input.label-text
+        label 允许的渠道:
+        input(type="text", ng-model="item.allow_partner")
+        small.tip *提示
+          .detail
+            label -1 全部允许; 指定允许的渠道,渠道号按逗号分割,例如: '1,2,3'
+      .label-input.label-text
+        label 栏目更新状态:
+        input(type="text", ng-model="item.topic_tip")
+      .label-input.label-text
+        label 子频道类型:
+        input(type="text", ng-model="item.sub_channel_type_id")
+        small.tip *提示
+          .detail
+            label 美剧频道子频道类型
+      .label-input.label-text
+        label channeled:
+        input(type="text", ng-model="item.channeled")
+        small.tip *提示
+          .detail
+            label 统计用的数据
+    .item2
+      p 
+        a(href="#", ng-click="moveTop(this)") 置顶
+        a(href="#", ng-click="moveBottom(this)") 置底
+      p 
+        a(href="#", ng-click="moveUp(this)") 上移
+        a(href="#", ng-click="moveDown(this)") 下移
+      p 
+        a(href="#", ng-click="config()", ng-controller="columnConfigCtrl") 栏目配置
+button.save.btn(ng-class="{show: list && list.length}", ng-click="listProvider.save()") 保存
+script(type="text/ng-template", id="columnConfig.html")
+  .modal-header
+    h3 栏目配置 - {{ item.videoColumn.name || '' }}
+  .modal-body
+    .div(style="position: absolute;left: 0px;top: 26px;")
+      input(type="checkbox", style="display: block;", ng-click="all(plats)")
+    .label-input.label-text.label-group(style="margin-left: -46px;display: block;")
+      input(type="checkbox")
+      label 字段所属平台:
+      .edit
+        span.label-radio.horizon(ng-repeat="plat in plats")
+          input(type="checkbox", ng-checked="plat.checked", ng-click="plat.checked = !plat.checked")
+          {{ plat.name }}
+    .label-input.label-text.label-group(style="margin-left: -46px;")
+      label 请选择字段:
+      .label-input.label-text(style="margin-left: 44px;")
+        label 视频/专辑:
+        .edit
+          span.label-radio.horizon
+            input(type="checkbox", ng-model="config.vs_tv_name.active")
+            标题
+          span.label-radio.horizon
+            input(type="checkbox", ng-model="config.vs_sub_title.active")
+            副标题
+          span.label-radio.horizon
+            input(type="checkbox", ng-model="config.vs_pic.active")
+            图片
+          span.label-radio.horizon
+            input(type="checkbox", ng-model="config.vs_tip.active")
+            图片提示
+          span.label-radio.horizon
+            input(type="checkbox", ng-model="config.vs_preview.active")
+            预览播放页
+          span.label-radio.horizon
+            input(type="checkbox", ng-model="config.vs_total.active")
+            总集数
+          span.label-radio.horizon
+            input(type="checkbox", ng-model="config.vs_now.active")
+            当前播放集数
+          span.label-radio.horizon
+            input(type="checkbox", ng-model="config.vs_intro.active")
+            简介
+          span.label-radio.horizon
+            input(type="checkbox", ng-model="config.vs_cm.active")
+            角标
+          span.label-radio.horizon
+            input(type="checkbox", ng-model="config.vs_recommend_reason.active")
+            推荐理由
+          
+      .label-input.label-text(style="margin-left: 44px;")
+        label 专题/活动:
+        .edit
+          span.label-radio.horizon
+            input(type="checkbox", ng-model="config.sa_title.active")
+            标题
+          span.label-radio.horizon
+            input(type="checkbox", ng-model="config.sa_sub_title.active")
+            副标题
+          span.label-radio.horizon
+            input(type="checkbox", ng-model="config.sa_pic.active")
+            图片
+          span.label-radio.horizon
+            input(type="checkbox", ng-model="config.sa_url.active")
+            专题URL
+          span.label-radio.horizon
+            input(type="checkbox", ng-model="config.sa_cm.active")
+            角标
+          span.label-radio.horizon
+            input(type="checkbox", ng-model="config.sa_pic_tip.active")
+            图片提示
+          span.label-radio.horizon
+            input(type="checkbox", ng-model="config.sa_intro.active")
+            简介 
+          span.label-radio.horizon
+            input(type="checkbox", ng-model="config.sa_live_id.active")
+            直播ID 
+    .label-input.label-text.label-group
+      label(style="display: block;text-align: left;") 为已选择字段添加提示:
+      div(style="overflow: hidden;")
+        div(style="float: left; width: 50%;text-align: center;margin: 25px 0 4px 0;")
+          span(style="display: inline-block;padding-right: 160px;margin-left: 109px;") 视频/专辑
+          span JS校验规则
+        div(style="float: left; width: 50%;text-align: center;margin: 25px 0 4px 0;")
+          span(style="display: inline-block;padding-right: 160px;margin-left: 72px;") 专题/活动
+          span JS校验规则
+      div.horizon(style="vertical-align: top;width: 573px;")
+        .label-input.label-text(ng-if="config.vs_tv_name.active")
+          label 标题:
+          input(type="text", ng-model="config.vs_tv_name.value")
+          select(ng-model="config.vs_tv_name.js_rule", ng-options="jr.value as jr.name for jr in js_rules")
+        .label-input.label-text(ng-if="config.vs_sub_title.active")
+          label 副标题:
+          input(type="text", ng-model="config.vs_sub_title.value")
+          select(ng-model="config.vs_sub_title.js_rule", ng-options="jr.value as jr.name for jr in js_rules")
+        .label-input.label-text(ng-if="config.vs_tip.active")
+          label 图片提示:
+          input(type="text", ng-model="config.vs_tip.value")
+          select(ng-model="config.vs_tip.js_rule", ng-options="jr.value as jr.name for jr in js_rules")
+        .label-input.label-text(ng-if="config.vs_pic.active")
+          label 图片:
+          input(type="text", ng-model="config.vs_pic.width", placeholder="宽")
+          input(type="text", ng-model="config.vs_pic.height", placeholder="高")
+        .label-input.label-text(ng-if="config.vs_preview.active")
+          label 预览播放页:
+          input(type="text", ng-model="config.vs_preview.value")
+          select(ng-model="config.vs_preview.js_rule", ng-options="jr.value as jr.name for jr in js_rules")
+        .label-input.label-text(ng-if="config.vs_total.active")
+          label 总集数:
+          input(type="text", ng-model="config.vs_total.value")
+          select(ng-model="config.vs_total.js_rule", ng-options="jr.value as jr.name for jr in js_rules")
+        .label-input.label-text(ng-if="config.vs_now.active")
+          label 当前播放集数:
+          input(type="text", ng-model="config.vs_now.value")
+          select(ng-model="config.vs_now.js_rule", ng-options="jr.value as jr.name for jr in js_rules")
+        .label-input.label-text(ng-if="config.vs_intro.active")
+          label 简介:
+          input(type="text", ng-model="config.vs_intro.value")
+          select(ng-model="config.vs_intro.js_rule", ng-options="jr.value as jr.name for jr in js_rules")
+        .label-input.label-text(ng-if="config.vs_cm.active")
+          label 角标:
+          input(type="text", ng-model="config.vs_cm.value")
+          select(ng-model="config.vs_cm.js_rule", ng-options="jr.value as jr.name for jr in js_rules")
+        .label-input.label-text(ng-if="config.vs_recommend_reason.active")
+          label 推荐理由:
+          input(type="text", ng-model="config.vs_recommend_reason.value")
+          select(ng-model="config.vs_recommend_reason.js_rule", ng-options="jr.value as jr.name for jr in js_rules")
+      div.horizon(style="vertical-align: top;")
+        .label-input.label-text(ng-if="config.sa_title.active")
+          label 标题:
+          input(type="text", ng-model="config.sa_title.value")
+          select(ng-model="config.sa_title.js_rule", ng-options="jr.value as jr.name for jr in js_rules")
+        .label-input.label-text(ng-if="config.sa_sub_title.active")
+          label 副标题:
+          input(type="text", ng-model="config.sa_sub_title.value")
+          select(ng-model="config.sa_sub_title.js_rule", ng-options="jr.value as jr.name for jr in js_rules")
+        .label-input.label-text(ng-if="config.sa_pic_tip.active")
+          label 图片提示:
+          input(type="text", ng-model="config.sa_pic_tip.value")
+          select(ng-model="config.sa_pic_tip.js_rule", ng-options="jr.value as jr.name for jr in js_rules")
+        .label-input.label-text(ng-if="config.sa_pic.active")
+          label 图片:
+          input(type="text", ng-model="config.sa_pic.width")
+          input(type="text", ng-model="config.sa_pic.height")
+        .label-input.label-text(ng-if="config.sa_url.active")
+          label 专题URL:
+          input(type="text", ng-model="config.sa_url.value")
+          select(ng-model="config.sa_url.js_rule", ng-options="jr.value as jr.name for jr in js_rules")
+        .label-input.label-text(ng-if="config.sa_cm.active")
+          label 角标:
+          input(type="text", ng-model="config.sa_cm.value")
+          select(ng-model="config.sa_cm.js_rule", ng-options="jr.value as jr.name for jr in js_rules")
+        .label-input.label-text(ng-if="config.sa_live_id.active")
+          label 直播ID:
+          input(type="text", ng-model="config.sa_live_id.value")
+          select(ng-model="config.sa_live_id.js_rule", ng-options="jr.value as jr.name for jr in js_rules")
+        .label-input.label-text(ng-if="config.sa_intro.active")
+          label 简介:
+          input(type="text", ng-model="config.sa_intro.value")
+          select(ng-model="config.sa_intro.js_rule", ng-options="jr.value as jr.name for jr in js_rules")
+  .modal-footer
+    button.btn.yellow(ng-click="cancel()") 取消
+    button.btn.blue(ng-click="ok()") 保存

@@ -1,0 +1,103 @@
+header(ng-class="{top: scroll > 82}", plat-width)
+  section.stats
+    .label-input.ver.swapList
+      label 模式:
+      span
+        a(href="#", ng-class="{active: listShow}", ng-click="listShow = true") 列表
+        a(href="#", ng-class="{active: !listShow}" ,ng-click="listShow = false") 编辑
+    .label-input.ver.swapState
+      label 状态:
+      span
+        a(href="#", ng-class="{active: stats == 1}", ng-click="stats = 1") 有效
+        a(href="#", ng-class="{active: stats == 0}", ng-click="stats = 0") 无效
+  section.plat(ng-include="'/partials/plat.html'")
+div(ng-if="listShow", style="position: relative;")
+  .table_header.video
+    span(style="width: 40%")
+      span 名称
+    span(style="width: 20%")
+      span 视频ID
+    span(style="width: 20%")
+      span 专辑ID
+    span(style="text-align: right;width: 20%;")
+      span(style="margin-right: 20px;") #
+  section.list.channel.showList(ng-class="{active: list && list.length}")
+    .item(ng-repeat="item in list | filter: search", sortable)
+      label(style="width: 40%;")
+        span {{ item.video_name || item.album_name }}
+      label(style="width: 20%;")
+        span {{ item.vid }}
+      label(style="width: 20%;")
+        span {{ item.aid }}
+      label(style="width: 20%; text-align: center;")
+        span(style="color:#FF3A2D") {{ item.type == 0 && '(视频)' || '(专辑)' }}
+  .index-box.flist
+    i.index(ng-repeat="item in list", ng-bind="$index+1")
+section.list.firstStart(ng-class="{active: list && list.length}", ng-if="!listShow")
+  .item(ng-repeat="item in list | filter: search", h-light)
+    .ndex(ng-bind="$index+1")
+    .item1
+      .label-input.horizon
+        label 频道ID:
+        span {{item.cate_code}}
+      .label-input.horizon
+        label 专辑ID:
+        span {{item.aid}}
+      .label-input.horizon
+        label 视频ID:
+        span {{item.vid}}
+      .label-input.horizon
+        label 节目ID:
+        span {{item.program_id}}
+      .label-input.label-text
+        label {{item.type == 0 && '视频' || '专辑'}}名称:
+        input(type="text", ng-show="item.type == 0", ng-model="item.video_name")
+        input(type="text", ng-show="item.type == 1", ng-model="item.album_name")
+      .label-input.label-text
+        label 副标题:
+        input(type="text", ng-show="item.type == 0", ng-model="item.video_sub_name")
+        input(type="text", ng-show="item.type == 1", ng-model="item.album_sub_name")
+      .label-input.label-text
+        label 图片提示:
+        input(type="text", ng-model="item.tip")
+    .item2
+      .horizon(style="text-align: center;")
+        img.vertical(width="120", ng-src="{{item.video_big_pic}}", ng-click="view($event)")
+        button.vertical.btn(ng-click="upload(this)") 上传图片
+    .item3
+      p 
+        a(href="#", ng-click="moveTop(this)") 置顶
+        a(href="#", ng-click="moveBottom(this)") 置底
+      p 
+        a(href="#", ng-click="moveUp(this)") 上移
+        a(href="#", ng-click="moveDown(this)") 下移
+      p 
+        a(href="#", ng-click="changeStatus(item, $event)", ng-class="{on: item.status == 1}").iosBtn
+      p
+        a(href="#", ng-click="applyOthers(this)") 其他平台
+button.save.btn(ng-class="{show: list && list.length}", ng-click="listProvider.save()") 保存
+script(type="text/ng-template", id="mutlUpload.html")
+  .modal-header
+    h3 上传图片
+  .modal-body
+    .label-input.label-text
+      a(ng-href="{{item.video_big_pic}}", target="_blank")
+        img(width="60", ng-src="{{item.video_big_pic}}", style="display: inline-block;vertical-align: middle;margin-right: 20px;")
+      label 焦点图:
+      input.xxlarge(type="text", ng-model="item.video_big_pic")
+      input(type="file", upload="item.video_big_pic")
+    .label-input.label-text
+      a(ng-href="{{item.hor_high_pic}}", target="_blank")
+        img(width="60", ng-src="{{item.hor_high_pic}}", style="display: inline-block;vertical-align: middle;margin-right: 20px;")
+      label 高清横图:
+      input.xxlarge(type="text", ng-model="item.hor_high_pic")
+      input(type="file", upload="item.hor_high_pic")
+    .label-input.label-text
+      a(ng-href="{{item.ver_high_pic}}", target="_blank")
+        img(width="60", ng-src="{{item.ver_high_pic}}", style="display: inline-block;vertical-align: middle;margin-right: 20px;")
+      label 高清竖图:
+      input.xxlarge(type="text", ng-model="item.ver_high_pic")
+      input(type="file", upload="item.ver_high_pic")
+  .modal-footer
+    button.btn.yellow(ng-click="cancel()") 取消
+    button.btn.blue(ng-click="ok()") 确定

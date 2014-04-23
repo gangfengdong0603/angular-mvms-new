@@ -1,0 +1,74 @@
+.modal-header
+  h3 视频资源搜索
+.modal-body
+  .label-input.label-group
+    select(ng-model="search.fee")
+      option(value="-1") 所有
+      option(value="0") 免费
+      option(value="1") 会员
+    select(ng-model="search.o")
+      option(value="-1") 专辑周播放数排序
+      option(value="0") 视频周播放数排序
+      option(value="1") 发布时间
+    //select(ng-model="search.all")
+      option(value="-1") 全网
+      option(value="0") 站内
+    input(type="text", placeholder="关键字", ng-model="search.keyword",key-press="button")
+    button.btn.search(ng-click="searchByKey()") 查询
+  .label-input.label-group
+    select(ng-model="search.c")
+      option(value="1") 非播客视频
+      option(value="2") 播客视频
+      option(value="3") 电视APP通过专辑id取片花
+    .label-radio.horizon
+      input(type="radio", value="0", ng-model="search.t")
+      视频ID
+    .label-radio.horizon
+      input(type="radio", ng-model = "search.t", value="1")
+      专辑ID
+    input(type="text", style="margin-left: 66px;", placeholder="id", ng-model="search.id", key-press="button")
+    button.btn.search(ng-click="searchById()") 查询
+  .label-input.label-group
+    .label-radio.horizon
+      input(type="radio", value="0", ng-model="search.isUrl")
+      视频URL
+    .label-radio.horizon
+      input(type="radio", value="1", ng-model="search.isUrl")
+      专辑URL
+    input.double(type="text", style="margin-left: 39px;", placeholder="url", ng-model="search.url", key-press="button")
+    button.btn.search(ng-click="searchByUrl()") 查询
+    .results(ng-show="list && list.length")
+      table
+        thead
+          tr
+            th #
+            th 频道ID
+            th 专辑ID
+            th 老专辑ID
+            th 视频ID
+            th 老视频ID
+            th 视频名称
+            th 专辑名称
+            th 类型
+            th 预览
+            th &nbsp;
+        tbody
+          tr(ng-repeat="video in list")
+            td(ng-bind="$index+1")
+            td(ng-bind="video.cid")
+            td(ng-bind="video.aid")
+            td(ng-bind="video.sid")
+            td(ng-bind="video.vid")
+            td(ng-bind="video.old_vid")
+            td(ng-bind="video.video_name")
+            td(ng-bind="video.album_name")
+            td(ng-show="video.type == 0 && video.vid > 0") 单视频
+            td(ng-show="video.type !=0 || video.vid <= 0") 专辑
+            td(ng-hide="video.tv_url")
+              a(href="javascript: void(0);") 无
+            td(ng-show="video.tv_url")
+              a(target="_blank", ng-href="{{video.tv_url}}") 预览
+            td
+              button.btn(ng-click="recommend($index)") 推荐
+.modal-footer
+  button.btn(ng-click="cancel()") 取消

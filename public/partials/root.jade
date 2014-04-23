@@ -1,0 +1,35 @@
+.welcome
+  p.greet Welcome to 
+    span.mvms.tip MVMS 
+    &nbsp;!
+  .tips 
+    p.title 常用操作:
+    details
+      summary 如何全屏编辑列表?
+      p 鼠标移到页面最左侧，有颜色变化时点击，取消全屏重复操作一次
+    details
+      summary 如何回到顶部?
+      p 鼠标移到页面最顶部点击
+    details
+      summary 如何调整列表的平台顺序?
+      p 鼠标移到平台列表最左边"⇔ "处, 点击设置, 打开平台调整弹层，拖动平台来调整位置，点击保存后，此平台配置会保存在电脑本地，刷新页面后会自动读取上次保存的平台顺序.
+    p.title 常见错误说明:
+    details
+      summary 点击切换平台后平台字体显示红色说明什么?
+      p 此平台加载列表出错，可能是网络异常或服务器异常，请点击此平台重试或者刷新页面.
+    details
+      summary 点击左侧菜单，菜单边框显示红色说明什么?
+      p 说明这个菜单暂时没有内容.
+    //p.title.errorTip 警告:
+      span 内容（视频）列表的
+        i.errorTip 置有效按钮
+        请点击使用，
+        不要进行
+        i.errorTip 拖拽
+  //.links
+    p.title 常用链接
+    p
+      a(href="/content/1", target="_self") 首页－焦点图
+      a(href="/content/3", target="_self") 首页－电影
+      a(href="/content/57", target="_self") 电视剧－推荐
+      a(href="/content/58", target="_self") 电影－推荐

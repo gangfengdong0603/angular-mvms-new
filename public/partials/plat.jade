@@ -1,0 +1,23 @@
+ul(ng-show="plats")
+  li(ng-class="{active: plat.active}", ng-repeat="plat in plats.slice(0, platInit)", ng-click="activeNav(plats, $index)")
+    a(href="#", ng-bind="plat.name", ng-class="{error: plat.error}")
+  li.more(ng-hide="plats.length-1 < platInit")
+    span ...
+    ul
+      li(ng-repeat="plat in plats.slice(platInit)", ng-click="activeNav(plats, $index+platInit)")
+        a(href="#", ng-bind="plat.name")
+  li.config(title="调整位置", ng-click="swapPlat(listProvider)") &hArr;
+  li(ng-repeat="a in adds", ng-class="{first: $index == 0}").adds 
+   a(href="#", ng-click="add($index)") + {{ a.name }}
+script(type="text/ng-template", id="swapPlat.html")
+  .modal-header
+    h3 调整平台位置
+  .modal-body
+    div(style="position: relative;")
+      ul
+        li.platNode(ng-repeat="plat in plats", sortable, style="height: 16px;") {{plat.name}}
+      .index-box(style="z-index: -1;")
+        i.index(ng-repeat="item in plats", ng-bind="$index+1")
+  .modal-footer
+    button.btn.yellow(ng-click="cancel()") 取消
+    button.btn.blue(ng-click="save()") 保存

@@ -1,0 +1,493 @@
+extends layout
+
+block content
+  section(id="page", scroll="scroll", ng-controller="pageCtrl")
+    header
+      a.backTop(href="#", ng-click="backTop();", title="回到顶部") &uarr;
+      h1 
+        a(href="/", target="_self") MVMS
+      input.search(type="text", placeholder="查询列表", ng-model="search")
+    section(id="msg", ng-class="{active: msgs.stack.length}")
+      span(ng-repeat="msg in msgs.stack", ng-bind="msg.msg") 
+    section(id="fullscreen", ng-click="fullscreen()", title="{{ftitle}}")
+      i.icon
+    section(id="sider", ng-controller="sliderCtrl")
+      ul
+        li(ng-repeat="node in nodes", ng-include="'tree.html'", ng-class="{active: node.active, link: node.url}", ng-hide="node.test", style="position: relative;")
+    section(id="content", ng-view)
+  script(type="text/ng-template", id="tree.html")
+    .move(ng-if="node.nodes && node.nodes.length", ng-show="node.active", ng-click="editNodes(node)") ⇔
+    a(ng-click="load(node)", ng-class="{nonodes: node.nodes && !node.nodes.length}", ng-href="{{ getUrl(node) || '#' }}", ng-bind="node.name", ng-target="{_blank:node.new}")
+    ul(ng-show="node.active")
+      li(ng-repeat="node in node.nodes", ng-include="'tree.html'", ng-class="{active: node.active, link: node.url}", ng-hide="node.test", style="position: relative;")
+  script.
+   (function(d, exports) {
+      var body = d.body;
+      if(!/chrome/.test(navigator.userAgent.toLowerCase())) {
+        body.innerHTML = '<div style="background: rgba(0,0,0, .8);width: 100%;height: 100%;left:0;top:0;position:absolute;z-index: 9999;color: white;font-size: 20px;"> \
+                            <p style="text-align: center;margin-top:50px">为了得到更好的体验，请下载<span style="color: deeppink;">&nbsp;Chrome&nbsp;</span>浏览器:</p> \
+                            <div style="width: 170px;height: 114px;overflow: hidden;margin: auto;padding-top:30px;"> \
+                              <a style="margin-left: -25px;display: block;background-image: url(/images/chrome.jpg);background-repeat: no-repeat;height: 120px;"></a> \
+                            </div> \
+                            <a href="https://www.google.com/intl/zh-CN/chrome/browser/" target="_blank" class="btn" style="background-color: deeppink;display: block;width: 128px;margin: auto;margin-top: 50px;font-size: 14px;border-radius: 0;padding: 12px 18px;-webkit-appearance: inherit;color: honeydew;text-decoration: none;">下载</a> \
+                          </div>';
+        return;
+      }
+
+      var myapp = {};
+      myapp.list_service = {
+        'appPics': {
+          listUrl: '/plat_hot_app/list.do?type=1',
+          saveUrl: '/plat_hot_app/json_save.do'
+        },
+        'appList': {
+          listUrl: '/plat_hot_app/list.do?type=2',
+          saveUrl: '/plat_hot_app/json_save.do'
+        }, 
+        'channel': {
+          listUrl: '/plat_channel/list.do',
+          saveUrl: '/plat_channel/json_save.do'
+        },
+        'column': {
+          listUrl: '/plat_channel_column/list.do',
+          saveUrl: '/plat_channel_column/json_save.do'
+        },
+        'channels': {
+          listUrl: '/channel/list.do',
+        },
+        'all_channels': {
+          listUrl: '/channel/list.do?isAll=true',
+        },
+        'video': {
+          listUrl: '/plat_column_content/list.do',
+          saveUrl: '/plat_column_content/json_save.do'
+        },
+        'key': {
+          listUrl: '/plat_column_content/search_key.do'
+        },
+        'url': {
+          listUrl: '/plat_column_content/search_url.do'
+        },
+        'id': {
+          listUrl: '/plat_column_content/search_id.do'
+        },
+        'recommend': {
+          listUrl: '/plat_column_content/recommend.do'
+        },
+        'firstStart': {
+          listUrl: '/plat_first_start_content/list.do',
+          saveUrl: '/plat_first_start_content/json_save.do'
+        },
+        'pluginManage': {
+          listUrl: '/plat_plugin/list.do',
+          saveUrl: '/plat_plugin/json_save.do'
+        }
+      };
+      myapp.js_rules = [
+        {name: '无', value: 0},
+        {name: '是否URL', value: 1},
+        {name: '是否字段', value: 2}
+      ];
+      myapp.tree =  [
+        {
+          'name': '首页',
+          'url': '/',
+          'id': 'app'
+        },
+        {
+          'name': '客户端',
+          'child_url': '/channel/list.do',
+          'id': 'app'
+        },
+        {
+          'name': '频道管理',
+          'url': '/channelManage'
+        },
+        {
+          'name': '应用管理',
+          'child_url': true, 
+          'id': 'appManage',
+          'nodes': [
+            {
+              'name': '焦点图',
+              'url': '/appManage/pics',
+              'id': 'appPic'
+            },
+            {
+              'name': '应用列表',
+              'url': '/appManage/list',
+              'id': 'appList'
+            }
+          ]
+        },
+        {
+          'name': '其他',
+          'child_url': true,
+          'id': 'others',
+          'nodes': [
+            {
+              'name': '冷启动页管理',
+              'url': '/others/firstStartManage',
+              'id': 'firstStartManage'
+            },
+            {
+              'name': '插件管理',
+              'url': '/others/pluginManage',
+              'id': 'pluginManage'
+            },
+            {
+              'name': 'api接口地址列表',
+              'url': '/static/api_address/api.html',
+              'new': true,
+              'id': 'mvmsapiListinter'
+            },
+            {
+              'name': 'Loading管理',
+              'url': '/mobile/loading/list.do',
+              'new': true,
+              'id': 'loadingList'
+            },
+            {
+              'name': '通用全局配置',
+              'url': '/mobile/commonConfig/list.do',
+              'new': true,
+              'id': 'commonConfig'
+            },
+            {
+              'name': '特殊全局配置',
+              'url': '/mobile/specialConfig/list.do',
+              'new': true,
+              'id': 'specialConfig'
+            },
+            {
+              'name': '搜索热词',
+              'url': '/mobile/hot/latest.do',
+              'new': true,
+              'id': 'hot'
+            },
+            {
+              'name': 'push测试',
+              'url': 'http://10.10.52.197:9090/a/pushmobile/mobile_content.do',
+              'new': true,
+              'test': document.domain.match(/sohuno/),
+              'id': 'pushtest'
+            },
+            {
+              'name': 'push正式',
+              'url': 'http://vms.m.tv.sohuno.com/release/a/pushmobile/mobile_content.do',
+              'new': true,
+              'test': !document.domain.match(/sohuno/),
+              'id': 'push'
+            },
+            {
+              'name': '专题' + (document.domain.match(/sohuno/) && '正式' || '测试') + '后台',
+              'url': '/mobile/subject/list',
+              'new': true,
+              'id': 'subject'
+            }
+          ]
+        }
+      ];
+      myapp.columnConfig = [
+        "vs_tv_name", 
+        "vs_sub_title", 
+        "vs_pic", 
+        "vs_tip", 
+        "vs_preview", 
+        "vs_total", 
+        "vs_now", 
+        "vs_intro", 
+        "vs_cm",
+        // 推荐理由
+        "vs_recommend_reason",
+        "sa_title", 
+        "sa_sub_title", 
+        "sa_pic",
+        "sa_url",
+        "sa_cm",
+        "sa_pic_tip",
+        "sa_intro",
+        "sa_live_id"
+      ];
+      myapp.models = {
+        hotApp: function(type, priority, plat) {
+          return {
+            "id": '',
+            "create_time": '',
+            "create_user": '',
+            "update_time": '',
+            "update_user": '',
+            "name": '',
+            "hot_app_desc": '',
+            "icon": '',
+            "app_size": '',
+            "download_count": '',
+            "download_url": '',
+            "status": 0,
+            "priority": priority,
+            "plat": plat,
+            "type": type,
+            "identification": ''
+          }
+        },
+        firstVideo: function(plat, priority) {
+          return {
+            "id": '',
+            "play_count": 0,
+            "priority": priority,
+            "video_name": '',
+            "video_sub_name": '',
+            "album_name": '',
+            "album_sub_name": '',
+            "status": 0,
+            "update_time": '',
+            "update_user": '',
+            "cate_code": '',
+            "aid": '',
+            "tip": '',
+            "total_video_count": '',
+            "latest_video_count": '',
+            "score": '',
+            "type": '',
+            "vid": '',
+            "video_big_pic": '',
+            "cid": '',
+            "plat": plat,
+            "program_id": '',
+            "program_name": '',
+            "identification": '',
+            "hor_high_pic":'',
+            "ver_high_pic": ''
+          }
+        },
+        video: function(column_id, plat, priority, cate_code, other_plats, type) {
+          return {
+            "id": '',
+            // 置有效/无效 应用到其他平台
+            "other_plats": other_plats || [],
+            // 直播ID
+            "live_id": '',
+            "site": null,
+            "url_high": '',
+            "download_url": '',
+            "column_id": column_id,
+            "area": '',
+            "cate_code": cate_code,
+            "code": '',
+            "director": '',
+            "fee": '',
+            "fee_month": '',
+            "fee_rule_id": '',
+            "hor_big_pic": '',
+            "main_actor": '',
+            "only": '',
+            "s_url": '',
+            "aid": '',
+            "sid": '',
+            "video_sub_name": "",
+            "tip": '',
+            "tip_num": '',
+            "publish_time": '',
+            "tv_cont_cats": '',
+            "tv_desc": "",
+            "video_name": "",
+            "play_count": '',
+            "tv_play_order": '',
+            "score": '',
+            "tv_score_count": '',
+            "tv_source": '',
+            "tv_url": '',
+            "tv_year": '',
+            "ver_big_pic": "",
+            "vid": '',
+            "old_vid": '',
+            "video_big_pic": '',
+            "video_url": '',
+            "type": type,
+            "status": 0,
+            "ip_limit": '',
+            "mobile_limit": '',
+            "ver_small_pic": '',
+            "is_download": '',
+            "hor_small_pic": '',
+            "video_small_pic": '',
+            "tv_source_pic": '',
+            "video_tv_type": '',
+            "update_time": '',
+            "update_user": '',
+            "priority": priority,
+            "cid": '',
+            "is_original_code": '',
+            "album_name": '',
+            "tv_recommend_pic": '',
+            "plat": plat,
+            // 推荐理由
+            "recommend_reason": '',
+            "content": {
+              "id": '',
+                // 推荐理由
+              "recommend_reason": '',
+              "aid": '',
+              "album_name": "",
+              "video_name": "",
+              "album_sub_name": "",
+              "video_sub_name": "",
+              "tip": "",
+              "column_id": column_id,
+              "update_user": '',
+              "update_time": '',
+              "default_pic": "",
+              "action_url": '',
+              "tv_desc": "",
+              "latest_video_count": '',
+              "total_video_count": '',
+              "label": '',
+              "action_type": type == 2 ? "ERROR": "",
+              // 直播ID
+              "live_id": ''
+            },
+            "content_id": '',
+            "action_url": '',
+            "ver_high_pic": '',
+            "hor_high_pic": '',
+            "hor_high_16x9_pic": '',
+            "album_sub_name": '',
+            "video_sub_name": '',
+            "program_id": '',
+            "program_name": '',
+            "label": ''
+          }
+        },
+        column: function(cate_code, plat, priority) {
+          return {
+            "id": '',
+            "cate_code": cate_code,
+            "topic_tip": '${}',
+            "plat": plat,
+            "column_id": '',
+            "name": "",
+            "priority": priority,
+            "status": 0,
+            "column_type": "ERROR",
+            "update_user": "",
+            "update_time": '',
+            "layout": 3,
+            "jump_cate_code": 0,
+            "sver": '',
+            "content_column_config": '',
+            "content_size": 0,
+            "plat_group": -1,
+            "videoColumn": {
+              "id": '',
+              "name": "",
+              "column_status": 0,
+              "column_delete_status": 0,
+              "syn_status": 0,
+              "syn_url": "",
+              "cate_code": cate_code,
+              "update_user": "",
+              "update_time": '',
+              "url": ''
+            },
+            "allow_partner": '-1',
+            "layout_type": 'ERROR',
+            "more_list_layout_type": 'ERROR',
+            "action_url": '',
+            "sver_limit": '-1',
+            "more_list": '',
+            "sub_channel_type_id": '',
+            "channeled": ''
+          };
+        },
+        plugin: function(priority, plat) {
+          return {
+            "id": '',
+            "create_time": '',
+            "create_user": '',
+            "update_time": '',
+            "update_user": '',
+            // 标题
+            "name": "",
+            // 副标题
+            "sub_name": "",
+            // 图标
+            "icon": '',
+            // 缩略图
+            "thumb_pic": '',
+            // 
+            "status": 0,
+            "priority": priority,
+            "plat": plat,
+            // 
+            "type": 0,
+            // 活动类型
+            "action_type": "ERROR",
+            // 活动url
+            "action_url": "",
+            "identification": '',
+            // 限制的渠道
+            "limit_partner": '-1'
+          }
+        },
+        channel: function(plat, priority) {
+          return {
+            "id": '',
+            "sub_title": '',
+            "sver_limit": '-1',
+            "icon_v4": '',
+            "cate_code": '',
+            "plat": plat,
+            "name": "",
+            "status": 0,
+            "priority": priority,
+            "update_user": '',
+            "update_time": '',
+            "icon": "",
+            "more_list_layout_type": 3,
+            "is_nav_list": 1,
+            "channeled": '',
+            "channelBean": {
+              "id": '',
+              "cate_code": '',
+              "name": "",
+              "status": 0,
+              "cate_api": "",
+              "v3_cate_api": "",
+              "sort": "",
+              "icon": "",
+              "layout": 2,
+              "cid": '',
+              "common_cate": [],
+              "update_user": "",
+              "update_time": '',
+              "child_url": ''
+            }
+          };
+        }
+      };
+      // expose to global
+      exports.myapp = myapp;
+
+      // load js
+      var loads = ['/angular/angular.js', '/underscore/underscore.js', '/build.js', '/javascripts/app.js', '/javascripts/controller.js', '/javascripts/service.js', '/javascripts/directive.js' ,'/javascripts/ui-bootstrap-custom-0.6.0.js', '/angular-route/angular-route.js'], loadScript;
+      (loadScript = function(n) {
+        var src = loads[n];
+        if(!src) return;
+        var script = document.createElement('script');
+        script.src = src;
+        document.body.appendChild(script);
+        script.onload = function() {
+          loadScript(++n);
+        };
+      })(0);
+
+     // load windows css
+     /*
+     if(navigator.userAgent.match(/windows/i)) {
+       var link = document.createElement('link');
+       link.rel = 'stylesheet';
+       link.href = '/stylesheets/w.css';
+       d.querySelector('head').appendChild(link);
+     }
+     */
+    })(document, window);

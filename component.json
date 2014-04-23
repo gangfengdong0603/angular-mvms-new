@@ -1,0 +1,8 @@
+{
+  "name": "sortable",
+  "dependencies": {
+    "component/upload": "0.1.1",
+    "yields/sortable": "*",
+    "yields/store": "0.2.0"
+  }
+}

@@ -1,0 +1,59 @@
+header(ng-class="{top: scroll > 82}", plat-width)
+  section.stats
+    .label-input.ver
+      label 模式:
+      span
+        a(href="#", ng-class="{active: listShow}", ng-click="listShow = true") 列表
+        a(href="#", ng-class="{active: !listShow}" ,ng-click="listShow = false") 编辑
+    .label-input.ver
+      label 状态:
+      span
+        a(href="#", ng-class="{active: stats == 1}", ng-click="stats = 1") 有效
+        a(href="#", ng-class="{active: stats == 0}", ng-click="stats = 0") 无效
+  section.plat(ng-include="'/partials/plat.html'")
+div(ng-if="listShow", style="position: relative;")
+  .table_header.channel(ng-show="plats && plats.length")
+    span 
+      span 应用名称
+    span(style="text-align: right;")
+      span(style="margin-right: 20px;") #
+  section.list.channel.showList(ng-class="{active: list && list.length}")
+    .item(ng-repeat="item in list | filter: search", sortable, h-light)
+      label(style="width: 50%;")
+        span(ng-bind="item.name")
+  .index-box.flist
+    i.index(ng-repeat="item in list", ng-bind="$index+1")
+section.list.channel(ng-class="{active: list && list.length}", ng-if="!listShow")
+  .item(ng-repeat="item in list | filter: search", h-light)
+    .ndex(ng-bind="$index+1")
+    .item1
+      .label-input.label-text
+        label 应用名称:
+        input(type="text", ng-model="item.name")
+      .label-input.label-text
+        label 应用描述:
+        input(type="text", ng-model="item.hot_app_desc")
+      .label-input.label-text
+        label 下载地址:
+        input(type="text", ng-model="item.download_url")
+      .label-input.label-text
+        label 应用大小:
+        input(type="text", ng-model="item.app_size")
+      .label-input.label-text
+        label 下载数量:
+        input(type="text", ng-model="item.download_count")
+    .item2
+      .horizon
+        img(height="60", ng-src="{{item.icon}}", ng-click="view($event)")
+        input.vertical(type="file", upload="item.icon")
+    .item3(ng-controller="channelConfigCtrl")
+      p 
+        a(href="#", ng-click="moveTop(this)") 置顶
+        a(href="#", ng-click="moveBottom(this)") 置底
+      p 
+        a(href="#", ng-click="moveUp(this)") 上移
+        a(href="#", ng-click="moveDown(this)") 下移
+      p
+        a(href="#", ng-click="changeStatus(item, $event)", ng-class="{on: item.status == 1}").iosBtn
+a.loadmore(ng-if="plats && plats.length", ng-click="listProvider.loadMore()", href="#", ng-bind="listProvider.loading && '加载中..' || (listProvider.more && '加载更多' || (listProvider.more == false && '没有更多啦' || ''))") 
+button.save.btn(ng-class="{show: list && list.length}", ng-click="listProvider.save()") 保存

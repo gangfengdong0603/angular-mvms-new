@@ -1,0 +1,87 @@
+ng@ubuntu:~/angular-mvms2.0$ 
+gangfengdong@ubuntu:~/angular-mvms2.0$ 
+gangfengdong@ubuntu:~/angular-mvms2.0$ git status -s
+ M public/partials/channelManage.jade
+ M views/index.jade
+gangfengdong@ubuntu:~/angular-mvms2.0$ git diff public/partials/channelManage.jade
+diff --git a/public/partials/channelManage.jade b/public/partials/channelManage.jade
+index 9f4713e..c6afda6 100644
+--- a/public/partials/channelManage.jade
++++ b/public/partials/channelManage.jade
+@@ -36,29 +36,17 @@ section.list.channel(ng-class="{active: list && list.length}", ng-if="!listShow"
+         label 副标题:
+         input(type="text", ng-model="item.sub_title")
+       .label-input.label-text
+-        label VRS一级分类:
+-        select(ng-model="item.channelBean.cate_code", vrs="")
+-          option(value="0") 首页
+-          option(value="100") 电影
+-          option(value="101") 电视剧
+-          option(value="105") 原创
+-          option(value="106") 综艺
+-          option(value="107") 纪录片
+-          option(value="112") 娱乐
+-          option(value="115") 动漫
+-          option(value="119") 教育
+-          option(value="121") 音乐
+-          option(value="122") 新闻
+-          option(value="130") 星尚
+-          option(value="131") 旅游
+-          option(value="6272") 搜狐网新闻底级页
+-          option(value="9001") 播客
+-          option(value="9002") 直播
+-          option(value="9003") VIP
+-          option(value="9004") 搜狐出品
+-          option(value="9005") 高清频道
+-          option(value="9006") 热点(短视频)
+-          option(value="10000") 其它
++        label cate_code:
++        input(type="text", ng-model="item.channelBean.cate_code")
++        small.tip *提示
++          .detail
++            label 新建频道时必须要填，填完并提交之后不能再修改，望谨记（如果修改会造成栏目无法读取）
++      .label-input.label-text
++        label cid:
++        input(type="text", ng-model="item.channelBean.cid")
++        small.tip *提示
++          .detail
++            label 值可以与cate_code的值一样，也必须要填。如果不填android平台不能显示这个频道，cid可以修改
+       .label-input
+         label 模板选择:
+         .label-radio.horizon
+gangfengdong@ubuntu:~/angular-mvms2.0$ git diff views/index.jade
+diff --git a/views/index.jade b/views/index.jade
+index a047952..e8bd3b3 100644
+--- a/views/index.jade
++++ b/views/index.jade
+@@ -185,28 +185,6 @@ block content
+           ]
+         }
+       ];
+-      myapp.vrs = {
+-        '100': '1',
+-        '101': '2',
+-        '106': '7',
+-        '107': '8',
+-        '0': '0',
+-        '9002': '9002',
+-        '122': '1300',
+-        '115': '16',
+-        '9001': '9001',
+-        '105': '6',
+-        '131': '100', 
+-        '9003': '9003',
+-        '121': '24',
+-        '119': '21',
+-        '112': '13',
+-        '9004': '9004',
+-        '130': '13',
+-        '6272': '6272',
+-        '9005': '',
+-        '9006': ''
+-      };
+       myapp.columnConfig = [
+         "vs_tv_name", 
+         "vs_sub_title", 
+gangfengdong@ubuntu:~/angular-mvms2.0$ 
+

@@ -1,0 +1,15 @@
+#!/bin/bash
+
+server="10.2.9.97"
+lftp << EOF
+open $server
+lcd release
+echo "sync to $server..."
+mirror -R javascripts
+mirror -R stylesheets
+mirror -R template
+mirror -R images
+mirror -R partials
+put index.html
+EOF
+echo "done."

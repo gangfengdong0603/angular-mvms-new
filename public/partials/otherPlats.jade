@@ -1,0 +1,14 @@
+.modal-header
+  h3 应用到其他平台
+.modal-body
+  div
+    .label-input.label-text.label-radio.horizon
+      input(type="checkbox", ng-click="all(other_plats)")
+      全部
+  div
+    .label-input.label-text.label-radio.horizon(ng-repeat="plat in other_plats")
+      input(type="checkbox", ng-model="plat.checked")
+      {{ plat.name }}
+.modal-footer
+  button.btn.yellow(ng-click="cancel()") 取消
+  button.btn.blue(ng-click="ok()") 确定
