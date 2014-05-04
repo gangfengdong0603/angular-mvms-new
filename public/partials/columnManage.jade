@@ -180,17 +180,23 @@ section.list.column(ng-class="{active: list && list.length}", ng-if="!listShow")
         label actionUrl:
         input.double(type="text", ng-model="item.action_url")
       .label-input.label-text
-        label 版本限制:
+        label 允许版本:
         input(type="text", ng-model="item.sver_limit")
         small.tip *提示
           .detail
-            label -1 全部版本; 指定的版本,版本号按逗号分割,例如: ',4.0,4.0.1,4.0.2,'
+            label -1 允许全部版本; 指定的版本,版本号按英文逗号分割,开始和结尾必须加上英文逗号例如: ',4.0,4.0.1,4.0.2,'
+      .label-input.label-text
+        label 排除版本:
+        input(type="text", ng-model="item.sver_exclude")
+        small.tip *提示
+          .detail
+            label -1 不排除任何版本; 指定的版本,版本号按英文逗号分割,开始和结尾必须加上英文逗号例如: ',4.0,4.0.1,4.0.2,'
       .label-input.label-text
         label 允许的渠道:
         input(type="text", ng-model="item.allow_partner")
         small.tip *提示
           .detail
-            label -1 全部允许; 指定允许的渠道,渠道号按逗号分割,例如: '1,2,3'
+            label -1 全部允许; 指定允许的渠道,渠道号按英文逗号分割,开始和结尾不要加上英文逗号例如: '1,2,3'
       .label-input.label-text
         label 栏目更新状态:
         input(type="text", ng-model="item.topic_tip")
@@ -206,6 +212,12 @@ section.list.column(ng-class="{active: list && list.length}", ng-if="!listShow")
         small.tip *提示
           .detail
             label 统计用的数据
+      .label-input.label-text
+        label 栏目背景图:
+        input(type="text", ng-model="item.column_backgound_url")
+        small.tip *提示
+          .detail
+            label 栏目背景图url
     .item2
       p 
         a(href="#", ng-click="moveTop(this)") 置顶
