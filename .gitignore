@@ -1,10 +1,7 @@
-bower_components
-node_modules
 public/**/*.html
 public/**/*.css
 public/javascripts/*min.js
 build
-components
 release
 *.gz
 views/index.html

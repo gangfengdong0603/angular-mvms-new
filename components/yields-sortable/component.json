@@ -1,0 +1,24 @@
+{
+  "name": "sortable",
+  "repo": "yields/sortable",
+  "description": "UI Sortable component.",
+  "demo": "http://yields.github.io/sortable/index.html",
+  "version": "0.3.1",
+  "keywords": [
+    "draggable",
+    "sortable"
+  ],
+  "dependencies": {
+    "component/each": "0.1.0",
+    "component/matches-selector": "*",
+    "component/emitter": "*",
+    "component/events": "*",
+    "component/classes": "*",
+    "yields/indexof": "*"
+  },
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": [
+    "index.js"
+  ]
+}
