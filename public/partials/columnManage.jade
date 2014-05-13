@@ -128,6 +128,9 @@ section.list.column(ng-class="{active: list && list.length}", ng-if="!listShow")
       .label-input.label-text
         label 自动列表:
         input.double(type="text", ng-model="item.more_list")
+      .label-input.label-text
+        label 二级自动列表:
+        input.double(type="text", ng-model="item.second_more_list")
       .label-input
         label(ng-class="{error: item.more_list_layout_type == 'ERROR' || !item.more_list_layout_type || item.more_list_layout_type == 'null'}") 自动列表样式
           //i(ng-show="item.more_list_layout_type == 'ERROR' || !item.more_list_layout_type || item.more_list_layout_type == 'null'") (必选)

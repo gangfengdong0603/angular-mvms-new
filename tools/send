@@ -1,6 +1,8 @@
 #!/bin/bash
 
-server="10.2.9.97"
+#server="10.2.9.97"
+#server="10.2.10.144"
+server="192.168.19.1"
 lftp << EOF
 open $server
 lcd release
