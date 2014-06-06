@@ -96,6 +96,7 @@ section.list.column(ng-class="{active: list && list.length}", ng-if="!listShow")
           option(value="105") 105 横图首张放大
           option(value="106") 106 横图一行三列
           option(value="107") 107 横图无副标题
+          option(value="108") 108 播放记录
           option(value="201") 201 横图1大N小
           option(value="202") 202 竖图幻灯
           option(value="203") 203 横图幻灯
@@ -157,6 +158,7 @@ section.list.column(ng-class="{active: list && list.length}", ng-if="!listShow")
           option(value="18") 18 横图双拼 压标+副标题播放数
           option(value="19") 19 热点频道
           option(value="20") 20 体育-赛程表
+          option(value="21") 21 自动列表热点流
       //.label-input
         label(ng-class="{error: item.more_list_layout_type == 'ERROR' || !item.more_list_layout_type || item.more_list_layout_type == 'null'}") 自动列表样式
           i(ng-show="item.more_list_layout_type == 'ERROR' || !item.more_list_layout_type || item.more_list_layout_type == 'null'") (必填)
