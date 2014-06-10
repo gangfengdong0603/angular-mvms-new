@@ -997,9 +997,10 @@ angular.module('mvmsService', [])
             t: 0,
             isUrl: 0
           };
-
+	  $scope.isClickButton = false;
           // 关键字搜索
           $scope.searchByKey = function() {
+            $scope.isClickButton = true;
             ListProvider('key', true)
               .list(function(data) {
                 $scope.list = data;
@@ -1013,6 +1014,7 @@ angular.module('mvmsService', [])
 
           // url搜索
           $scope.searchByUrl = function() {
+            $scope.isClickButton = true;
             ListProvider('url', true)
               .list(function(data) {
                 $scope.list = data;
@@ -1023,6 +1025,7 @@ angular.module('mvmsService', [])
           };
           // id搜索
           $scope.searchById = function() {
+	    $scope.isClickButton = true;
             ListProvider('id', true)
               .list(function(data) {
                 $scope.list = data;

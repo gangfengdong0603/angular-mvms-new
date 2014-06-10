@@ -70,5 +70,7 @@
               a(target="_blank", ng-href="{{video.tv_url}}") 预览
             td
               button.btn(ng-click="recommend($index)") 推荐
+  .results_empty(ng-show="!(list && list.length) && isClickButton")
+    p 亲，你可能输错了id，或者此视频没有移动端版权。 
 .modal-footer
   button.btn(ng-click="cancel()") 取消
